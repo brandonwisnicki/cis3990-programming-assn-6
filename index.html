@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+
+<head>
+<script type="text/javascript"  src="anime.min.js"></script>
+
+<style>
+.letter {
+  display: inline-block;
+  opacity: 0;
+}
+
+.fun-scroll {
+
+margin-left: 15rem;
+
+}
+
+.slider {
+margin-left: 5rem;
+}
+
+.fun-scroll .circle{
+margin: 2px;
+	width: 50px;
+	height: 50px;
+	border-radius: 100%;
+	background-color: red;
+}
+
+h1 {
+	margin-top: 10rem;
+}
+
+div#box, div#content {
+  width: 50px;
+  height: 50px;
+margin: 5rem;
+  background-color: green;
+  position: absolute;
+}
+
+#box {
+  background-color: lightgreen;
+  border: solid darkorange 3px;
+  margin-left: -3px;
+  margin-top: -3px;
+}
+.segment {
+  width: 0px;
+  height: 25px;
+  background-color: lime;
+  float: left;
+}
+
+#body {
+  width: 60px;
+  height: 25px;
+  border: solid grey 5px;
+  float: left;
+}
+
+#head {
+  width: 5px;
+  height: 15px;
+  margin-top: 10px;
+  background-color: grey;
+  float: left;
+}
+
+#rod {
+  position: relative;
+  margin-top: 50px;
+  margin-left: 150px;
+  width: 2px;
+  height: 150px;
+  border-radius: 5px;
+  transform-origin: 50% 0%;
+  transform: rotate(60deg);
+  background-color: green;
+}
+
+#pivot {
+  position: absolute;
+  top: -5px;
+  left: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: black;
+}
+
+#ball {
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: orange;
+}
+
+.ball {
+  width: 50px;
+  height: 50px;
+  margin-top: 100px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background-color: gray;
+  float: left;
+}
+
+</style>
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+<div id="rod">
+  <div id="pivot"></div>
+  <div id="ball"></div>
+</div>
+
+
+
+
+
+<div id="body">
+<div class="segment"></div>
+<div class="segment"></div>
+<div class="segment"></div>
+</div>
+<div id="head"></div>
+<div id="progress"></div>
+
+
+
+
+
+<div id="box"></div>
+<div id="content"></div>
+
+
+
+
+<h1>
+<span class="letter">B</span>
+<span class="letter">R</span>
+<span class="letter">A</span>
+<span class="letter">N</span>
+<span class="letter">D</span>
+<span class="letter">O</span>
+<span class="letter">N</span>
+
+<div></div>
+<span class="letter">I</span>
+<span class="letter">S</span>
+<div></div>
+<span class="letter">C</span>
+<span class="letter">O</span>
+<span class="letter">O</span>
+<span class="letter">L</span>
+<span class="letter">!</span>
+</h1>
+
+
+
+
+<div class="ball one"></div>
+<div class="ball two"></div>
+<div class="ball three"></div>
+
+
+
+<div class="fun-scroll">
+
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+ <input type="range" min="1" max="100" value="2" class="slider">
+
+</div>
+
+</body>
+
+<script type="text/javascript">
+
+
+let pendulum = anime({
+  targets: '#rod',
+  rotate: [60, -60],
+  duration: 3000,
+  easing: 'easeInOutSine',
+  direction: 'alternate',
+  loop: true
+});      
+  
+
+
+let progress = document.querySelector('#progress');
+
+let battery = {
+  progress: '0%'
+}
+
+let icon = anime({
+  targets: '.segment',
+  width: 20,
+  duration: 300,
+  delay: anime.stagger(500),
+  endDelay: 500,
+  easing: 'linear', 
+  loop: true
+});    
+
+let label = anime({
+  targets: battery,
+  progress: '100%',
+  duration: 30000,
+  easing: 'linear',
+  round: 1, 
+  update: function() {
+    progress.innerHTML = battery.progress
+  },
+  complete: function() {
+    icon.pause();
+    icon.seek(icon.duration);
+  }  
+});  
+
+
+
+let box = document.querySelector('#box');
+
+let boxanim = anime({
+  targets: '#content',   
+  translateY: [
+    {value: 50, duration: 500},
+    {value: 0, duration: 500, delay: 1500},  
+    {value: -53, duration: 500, delay: 500},
+    {value: 0, duration: 500, delay: 2500},
+    {value: 50, duration: 500, delay: 500},
+    {value: 0, duration: 500, delay: 1500}  
+  ],
+  translateX: [
+    {value: 53, duration: 500, delay: 1000},
+    {value: 0, duration: 500, delay: 2500},
+    {value: -53, duration: 500, delay: 500},
+    {value: 0, duration: 500, delay: 2500} 
+  ],
+  easing: 'linear',      
+  begin: function() { 
+    box.style.borderBottom="none";  
+  },
+  complete: function() {
+    box.style.borderBottom="solid darkorange 3px";     
+  }
+});                           
+ 
+  let txtFX = anime({
+  targets: '.letter',
+  opacity: 1,
+  translateY: 50, 
+  rotate: {
+    value: 360,
+    duration: 2000,
+    easing: 'easeInExpo'
+  }, 
+  scale: anime.stagger([0.7, 1], {from: 'center'}), 
+  delay: anime.stagger(100, {start: 1000}), 
+  translateX: [-10, 30]
+});     
+ 
+ 
+ let time = anime.timeline({
+  duration: 1000, 
+  easing: 'easeInOutSine',
+  direction: 'alternate', 
+  loop: true
+});           
+  
+time.add({
+  targets: '.one',
+  translateY: -50,
+  backgroundColor: 'rgb(255, 0, 0)'
+}).add({
+  targets: '.two',
+  translateY: -50,
+  backgroundColor: 'rgb(255, 255, 0)'
+}).add({
+  targets: '.three',
+  translateY: -50,
+  backgroundColor: 'rgb(0, 255, 0)'
+});
+  
+  
+  
+let funScroll = anime({
+  targets: '.fun-scroll .circle',
+  translateX: 270,
+  backgroundColor: 'rgb(0, 255, 0)',
+  elasticity: 200,
+  easing: 'easeInOutSine',
+  autoplay: false
+});
+
+let slider = document.querySelector('.slider');
+slider.oninput = function() {
+  funScroll.seek(funScroll.duration * slider.value / 100);
+};
+
+
+</script>
